@@ -24,10 +24,10 @@ namespace VendingMachine
         public abstract string Use();
     }
 
-    public class ChoclateBar : Product
+    public class ChocolateBar : Product
     {
 
-        public ChoclateBar(String name, int price, String info)
+        public ChocolateBar(String name, int price, String info)
         {
             this.Name = name;
             this.Singular = "";
@@ -47,15 +47,18 @@ namespace VendingMachine
 
         public override string Use()
         {
+            ScreenText screenText = new ScreenText();
             string konsumerarVara = "";
             if (this.Bought > this.Consumed)
             {
                 this.Consumed += 1;
                 konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
+                screenText.CurrentDisplay();
                 Console.WriteLine(konsumerarVara);
             }
             else
             {
+                screenText.CurrentDisplay();
                 Console.WriteLine("Du äger ingen " + this.Name.ToLower() + ".");
             }
             return konsumerarVara;
@@ -85,15 +88,18 @@ namespace VendingMachine
 
         public override string Use()
         {
+            ScreenText screenText = new ScreenText();
             string konsumerarVara = "";
             if (this.Bought > this.Consumed)
             {
                 this.Consumed += 1;
                 konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
+                screenText.CurrentDisplay();
                 Console.WriteLine(konsumerarVara);
             }
             else
             {
+                screenText.CurrentDisplay();
                 Console.WriteLine("Du äger ingen " + this.Name.ToLower() + ".");
             }
             return konsumerarVara;
@@ -123,6 +129,7 @@ namespace VendingMachine
 
         public override string Use()
         {
+            ScreenText screenText = new ScreenText();
             string konsumerarVara = "";
             if (this.Bought > this.Consumed)
             {

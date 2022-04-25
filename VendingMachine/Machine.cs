@@ -33,7 +33,6 @@ namespace VendingMachine
             set { _moneyPool = value; }
             get { return _moneyPool; }
         }
-
     }
 
     public class Purchase
@@ -48,9 +47,7 @@ namespace VendingMachine
             {
                 chosenProduct.Bought = chosenProduct.Bought + 1;
                 MoneyPool.moneyPool -= chosenProduct.Price;
-
             }
-
         }
     }
 
@@ -59,7 +56,6 @@ namespace VendingMachine
         public ShowAll()
         {
             Program.currentDisplay = Display.Menu;
-
         }
     }
 
@@ -87,7 +83,6 @@ namespace VendingMachine
         {
             if (MoneyPool.moneyPool > 0)
             {
-                //IDictionary<MoneyDenominations, int> changeInMoneyTypes = new Dictionary<MoneyDenominations, int>();
                 foreach (var val in Enum<MoneyDenominations>.AllValues().Reverse())
                 {
                     int moneyType = (int)val;
@@ -99,14 +94,6 @@ namespace VendingMachine
                     }
                 }
             }
-
-            /* kod för att testa värden
-            int change = MoneyPool.moneyPool;
-            MoneyPool.moneyPool = 0;
-            Console.WriteLine("Du får tillbaka din växel på " + change + "kr");
-            Console.WriteLine();
-            Console.Write("   ");
-            */
         }
     }
 }

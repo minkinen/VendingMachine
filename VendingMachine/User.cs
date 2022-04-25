@@ -52,13 +52,12 @@ namespace VendingMachine
                             VendingSelection consumptionChoice;
                             Product onsumptionChoiceProduct;
                             string consumptionTestProductName = inputElements[1];
-                            screenText.CurrentDisplay();
                             if (Enum.TryParse<VendingSelection>(inputElements[1], out choice))
                             {
                                 Management.menu.TryGetValue(choice, out chosenProduct);
                                 chosenProduct.Use();
                                 break;
-                            }
+                            }  
                             foreach (var (key, value) in Management.menu)
                             {
                                 if (value.Name == consumptionTestProductName)
@@ -92,7 +91,6 @@ namespace VendingMachine
 
                         break;
                     case "MENU":
-
                         Vending showAllService = new Vending();
                         ShowAll newShowAll = showAllService.ExecuteShowAll();
                         screenText.CurrentDisplay();
