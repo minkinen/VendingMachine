@@ -47,8 +47,17 @@ namespace VendingMachine
 
         public override string Use()
         {
-            string konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
-            Console.WriteLine(konsumerarVara);
+            string konsumerarVara = "";
+            if (this.Bought > this.Consumed)
+            {
+                this.Consumed += 1;
+                konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
+                Console.WriteLine(konsumerarVara);
+            }
+            else
+            {
+                Console.WriteLine("Du äger ingen " + this.Name.ToLower() + ".");
+            }
             return konsumerarVara;
         }
     }
@@ -76,8 +85,17 @@ namespace VendingMachine
 
         public override string Use()
         {
-            string konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
-            Console.WriteLine(konsumerarVara);
+            string konsumerarVara = "";
+            if (this.Bought > this.Consumed)
+            {
+                this.Consumed += 1;
+                konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
+                Console.WriteLine(konsumerarVara);
+            }
+            else
+            {
+                Console.WriteLine("Du äger ingen " + this.Name.ToLower() + ".");
+            }
             return konsumerarVara;
         }
     }
@@ -105,8 +123,17 @@ namespace VendingMachine
 
         public override string Use()
         {
-            string konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
-            Console.WriteLine(konsumerarVara);
+            string konsumerarVara = "";
+            if (this.Bought > this.Consumed)
+            {
+                this.Consumed += 1;
+                konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
+                Console.WriteLine(konsumerarVara);
+            }
+            else
+            {
+                Console.WriteLine("Du äger ingen " + this.Name.ToLower() + ".");
+            }
             return konsumerarVara;
         }
     }

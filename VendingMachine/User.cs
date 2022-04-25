@@ -30,6 +30,7 @@ namespace VendingMachine
                             VendingSelection choice;
                             Product chosenProduct;
                             string testProductName = inputElements[1];
+                            screenText.CurrentDisplay();
                             if (Enum.TryParse<VendingSelection>(inputElements[1], out choice))
                             {
                                 Management.menu.TryGetValue(choice, out chosenProduct);
@@ -51,6 +52,7 @@ namespace VendingMachine
                             VendingSelection consumptionChoice;
                             Product onsumptionChoiceProduct;
                             string consumptionTestProductName = inputElements[1];
+                            screenText.CurrentDisplay();
                             if (Enum.TryParse<VendingSelection>(inputElements[1], out choice))
                             {
                                 Management.menu.TryGetValue(choice, out chosenProduct);
@@ -82,10 +84,10 @@ namespace VendingMachine
                         Vending purchaseService = new Vending();
                         Purchase newPurchase = purchaseService.ExecutePurchase(codeValue);
                         usingVendingMachine = true;
-                        Console.WriteLine(MoneyPool.moneyPool);
                         Product chosenProduct;
                         Management.menu.TryGetValue(codeValue, out chosenProduct);
                         screenText.CurrentDisplay();
+                        Console.WriteLine("Du har köpt en " + chosenProduct.Singular + chosenProduct.Name.ToLower() + ".");
 
 
                         break;
@@ -93,14 +95,14 @@ namespace VendingMachine
 
                         Vending showAllService = new Vending();
                         ShowAll newShowAll = showAllService.ExecuteShowAll();
-                        screenText.DisplayMenu();
+                        screenText.CurrentDisplay();
                         usingVendingMachine = true;
                         break;
                     case "1" or "5" or "10" or "20" or "50" or "100" or "500" or "1000":
                         MoneyDenominations moneyValue = (MoneyDenominations)Int16.Parse(action);
                         Vending insertMoneyService = new Vending();
                         InsertMoney newInsertMoney = insertMoneyService.ExecuteInsertMoney(moneyValue);
-                        screenText.DisplayMenu();
+                        screenText.CurrentDisplay();
                         usingVendingMachine = true;
                         break;
                     case "V":
@@ -110,7 +112,7 @@ namespace VendingMachine
                             Dictionary<MoneyDenominations, int> changeInMoneyTypes = new Dictionary<MoneyDenominations, int>();
                             Vending endTransactionService = new Vending();
                             EndTransaction newEndTransaction = endTransactionService.ExecuteEndTransaction(changeInMoneyTypes);
-                            screenText.DisplayMenu();
+                            screenText.CurrentDisplay();
                             Console.Write("Du får tillbaka");
                             for (int x = 0; x < changeInMoneyTypes.Count; x++)
                             {
@@ -131,12 +133,12 @@ namespace VendingMachine
                     case "Ä":
                         // Not implemented
                         Program.currentDisplay = Display.Own;
-                        screenText.DisplayMenu();
+                        screenText.CurrentDisplay();
                         usingVendingMachine = true;
                         break;
                     case "T":
                         Program.currentDisplay = Display.Titel;
-                        screenText.DisplayMenu();
+                        screenText.CurrentDisplay();
                         usingVendingMachine = true;
                         break;
                     default:
