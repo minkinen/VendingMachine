@@ -29,8 +29,7 @@ namespace VendingMachine
                         case "U":
                             VendingSelection choice;
                             Product chosenProduct;
-                            string test1 = inputElements[1];
-                            object test = inputElements[1];
+                            string testProductName = inputElements[1];
                             if (Enum.TryParse<VendingSelection>(inputElements[1], out choice))
                             {
                                 Management.menu.TryGetValue(choice, out chosenProduct);
@@ -39,7 +38,7 @@ namespace VendingMachine
                             }
                             foreach (var (key, value) in Management.menu)
                             {
-                                if (value.Name == test1)
+                                if (value.Name == testProductName)
                                 {
                                     choice = key;
                                     Management.menu.TryGetValue(choice, out chosenProduct);
@@ -49,7 +48,25 @@ namespace VendingMachine
                             }
                             break;
                         case "K":
-                            // Not implemented
+                            VendingSelection consumptionChoice;
+                            Product onsumptionChoiceProduct;
+                            string consumptionTestProductName = inputElements[1];
+                            if (Enum.TryParse<VendingSelection>(inputElements[1], out choice))
+                            {
+                                Management.menu.TryGetValue(choice, out chosenProduct);
+                                chosenProduct.Use();
+                                break;
+                            }
+                            foreach (var (key, value) in Management.menu)
+                            {
+                                if (value.Name == consumptionTestProductName)
+                                {
+                                    choice = key;
+                                    Management.menu.TryGetValue(choice, out chosenProduct);
+                                    chosenProduct.Use();
+                                    break;
+                                }
+                            }
                             break;
                         default:
                             // code block?

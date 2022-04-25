@@ -34,7 +34,7 @@ namespace VendingMachine
             this.Plural = "";
             this.Price = price;
             this.Info = info;
-            this.Usage = " smaskar i dig en ";
+            this.Usage = "smaskar i dig en";
             this.Bought = 0;
             this.Consumed = 0;
         }
@@ -45,7 +45,12 @@ namespace VendingMachine
             return priceAndInfo;
         }
 
-        public override string Use() => "Du " + Usage + " " + this + ".";
+        public override string Use()
+        {
+            string konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
+            Console.WriteLine(konsumerarVara);
+            return konsumerarVara;
+        }
     }
 
     public class Snack : Product
@@ -58,7 +63,7 @@ namespace VendingMachine
             this.Plural = "påsar ";
             this.Price = price;
             this.Info = info;
-            this.Usage = " äter en påse ";
+            this.Usage = "äter en påse";
             this.Bought = 0;
             this.Consumed = 0;
         }
@@ -69,7 +74,12 @@ namespace VendingMachine
             return priceAndInfo;
         }
 
-        public override string Use() => "Du " + Usage + " " + this + ".";
+        public override string Use()
+        {
+            string konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
+            Console.WriteLine(konsumerarVara);
+            return konsumerarVara;
+        }
     }
 
     public class Drink : Product
@@ -82,7 +92,7 @@ namespace VendingMachine
             this.Plural = "flaskor ";
             this.Price = price;
             this.Info = info;
-            this.Usage = " dricker en flaska ";
+            this.Usage = "dricker en flaska";
             this.Bought = 0;
             this.Consumed = 0;
         }
@@ -93,7 +103,12 @@ namespace VendingMachine
             return priceAndInfo;
         }
 
-        public override string Use() => "Du " + Usage + " " + this + ".";
+        public override string Use()
+        {
+            string konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
+            Console.WriteLine(konsumerarVara);
+            return konsumerarVara;
+        }
     }
 
 
