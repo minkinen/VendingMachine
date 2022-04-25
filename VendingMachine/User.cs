@@ -17,9 +17,11 @@ namespace VendingMachine
             {
                 ScreenText screenText = new ScreenText();
 
-
+                Console.WriteLine();
+                Console.Write("   ");
                 string input = Console.ReadLine();
                 action = input.ToUpper();
+                screenText.CurrentDisplay();
 
                 string[] inputElements = action.Split(' ');
                 if (inputElements.Length == 2)
@@ -73,7 +75,6 @@ namespace VendingMachine
                             // code block?
                             break;
                     }
-
                 }
 
                 switch (action)
@@ -86,9 +87,8 @@ namespace VendingMachine
                         Product chosenProduct;
                         Management.menu.TryGetValue(codeValue, out chosenProduct);
                         screenText.CurrentDisplay();
-                        Console.WriteLine("Du har köpt en " + chosenProduct.Singular + chosenProduct.Name.ToLower() + ".");
-
-
+                        Console.WriteLine("                                      Du har köpt en " + chosenProduct.Singular + chosenProduct.Name.ToLower() + ".");
+                        Console.WriteLine();
                         break;
                     case "MENU":
                         Vending showAllService = new Vending();
@@ -100,7 +100,6 @@ namespace VendingMachine
                         MoneyDenominations moneyValue = (MoneyDenominations)Int16.Parse(action);
                         Vending insertMoneyService = new Vending();
                         InsertMoney newInsertMoney = insertMoneyService.ExecuteInsertMoney(moneyValue);
-                        screenText.CurrentDisplay();
                         usingVendingMachine = true;
                         break;
                     case "V":
@@ -111,7 +110,7 @@ namespace VendingMachine
                             Vending endTransactionService = new Vending();
                             EndTransaction newEndTransaction = endTransactionService.ExecuteEndTransaction(changeInMoneyTypes);
                             screenText.CurrentDisplay();
-                            Console.Write("Du får tillbaka");
+                            Console.Write(" Du får tillbaka");
                             for (int x = 0; x < changeInMoneyTypes.Count; x++)
                             {
                                 Console.Write(" {1} st {0}", changeInMoneyTypes.Keys.ElementAt(x), changeInMoneyTypes[changeInMoneyTypes.Keys.ElementAt(x)]);
@@ -125,21 +124,24 @@ namespace VendingMachine
                         }
                         else
                         {
-                            Console.WriteLine("Du har ingen växel att få tillbaka.");
+                            Console.WriteLine("                                    Du har ingen växel att få tillbaka.");
                         }
                         break;
                     case "Ä":
                         // Not implemented
                         Program.currentDisplay = Display.Own;
                         screenText.CurrentDisplay();
+                        Console.WriteLine();
                         usingVendingMachine = true;
                         break;
                     case "T":
                         Program.currentDisplay = Display.Titel;
                         screenText.CurrentDisplay();
+                        Console.WriteLine();
                         usingVendingMachine = true;
                         break;
                     default:
+                        Console.WriteLine();
                         break;
                 }
             }

@@ -41,7 +41,7 @@ namespace VendingMachine
         public override string Examine()
         {
             string priceAndInfo = Info + ". Pris " + Price + "kr.";
-            Console.WriteLine(priceAndInfo);
+            Console.WriteLine("                                   " + priceAndInfo);
             return priceAndInfo;
         }
 
@@ -54,12 +54,13 @@ namespace VendingMachine
                 this.Consumed += 1;
                 konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
                 screenText.CurrentDisplay();
-                Console.WriteLine(konsumerarVara);
+                Console.WriteLine("                                      " + konsumerarVara);
+
             }
             else
             {
                 screenText.CurrentDisplay();
-                Console.WriteLine("Du äger ingen " + this.Name.ToLower() + ".");
+                Console.WriteLine("                                          Du äger ingen " + this.Name.ToLower() + ".");
             }
             return konsumerarVara;
         }
@@ -82,7 +83,7 @@ namespace VendingMachine
         public override string Examine()
         {
             string priceAndInfo = Info + ". Pris " + Price + "kr.";
-            Console.WriteLine(priceAndInfo);
+            Console.WriteLine("                                  " + priceAndInfo);
             return priceAndInfo;
         }
 
@@ -95,12 +96,13 @@ namespace VendingMachine
                 this.Consumed += 1;
                 konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
                 screenText.CurrentDisplay();
-                Console.WriteLine(konsumerarVara);
+                Console.WriteLine("                                  " + konsumerarVara);
             }
             else
             {
                 screenText.CurrentDisplay();
-                Console.WriteLine("Du äger ingen " + this.Name.ToLower() + ".");
+                Console.WriteLine("                                       Du äger ingen " + this.Name.ToLower() + ".");
+                Console.WriteLine("                                    Du har ingen växel att få tillbaka.");
             }
             return konsumerarVara;
         }
@@ -123,7 +125,7 @@ namespace VendingMachine
         public override string Examine()
         {
             string priceAndInfo = Info + ". Pris " + Price + "kr.";
-            Console.WriteLine(priceAndInfo);
+            Console.WriteLine("                                " + priceAndInfo);
             return priceAndInfo;
         }
 
@@ -135,11 +137,11 @@ namespace VendingMachine
             {
                 this.Consumed += 1;
                 konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
-                Console.WriteLine(konsumerarVara);
+                Console.WriteLine("                                  " + konsumerarVara);
             }
             else
             {
-                Console.WriteLine("Du äger ingen " + this.Name.ToLower() + ".");
+                Console.WriteLine("                                     Du äger ingen " + this.Name.ToLower() + ".");
             }
             return konsumerarVara;
         }

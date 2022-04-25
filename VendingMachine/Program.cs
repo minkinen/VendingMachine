@@ -21,7 +21,6 @@ namespace VendingMachine
         static void Main()
         {
 
-
             MoneyPool.moneyPool = 0;
 
             ScreenText screenText = new ScreenText();
@@ -56,7 +55,7 @@ namespace VendingMachine
             Console.WriteLine("      Ä = Äger      ║                                    ║║║╠═╣║  ╠═╣║║║║╠╣                ║       V = Växel tillbaka ");
             Console.WriteLine("     AV = Avsluta   ║                                    ╩ ╩╩ ╩╩═╝╩ ╩╩╝╚╝╚═╩═╗             ║  Pengar = " + MoneyPool.moneyPool + " kr");
             Console.WriteLine("                    ╚════════════════════════════════════════════════════════╩═════════════╝");
-            Console.Write("   ");
+            Console.WriteLine();
         }
 
         public void DisplayMenu()
@@ -70,7 +69,7 @@ namespace VendingMachine
             Console.WriteLine("      Ä = Äger      ║                                                                      ║       V = Växel tillbaka");
             Console.WriteLine("     AV = Avsluta   ║ C1 10kr (Soda Vatten)  C2 15kr (Pepsi)        C3 15kr (Zingo)        ║  Pengar = " + MoneyPool.moneyPool + " kr");
             Console.WriteLine("                    ╚══════════════════════════════════════════════════════════════════════╝");
-            Console.Write("   ");
+            Console.WriteLine();
         }
 
         // Ej implementerad
@@ -104,7 +103,7 @@ namespace VendingMachine
             Console.WriteLine("      Ä = Äger      ║                                                                      ║       V = Växel tillbaka");
             Console.WriteLine("     AV = Avsluta   ║        " + c1Own + " Soda Vatten          " + c2Own + " Pepsi                " + c3Own + " Zingo         ║  Pengar = " + MoneyPool.moneyPool + " kr");
             Console.WriteLine("                    ╚══════════════════════════════════════════════════════════════════════╝");
-            Console.Write("   ");
+            Console.WriteLine();
         }
 
         public void CurrentDisplay()

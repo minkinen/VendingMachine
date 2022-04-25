@@ -32,7 +32,6 @@ namespace VendingMachine
             { VendingSelection.C3, Zingo }
         };
 
-        // Unneeded
         public static Product GetProduct(VendingSelection codeKey)
         {
             // Get the result from the static Dictionary.

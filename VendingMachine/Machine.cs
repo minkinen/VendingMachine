@@ -65,14 +65,14 @@ namespace VendingMachine
 
         public InsertMoney(MoneyDenominations value)
         {
+            ScreenText screenText = new ScreenText();
             string moneyType = value.ToString();
             Object valueNumber = Convert.ChangeType(value, value.GetTypeCode());
             int moneyValue = (int)valueNumber;
             MoneyPool.moneyPool += moneyValue;
+            screenText.CurrentDisplay();
+            Console.WriteLine("                                        Du matade in en " + moneyType);
 
-            Console.WriteLine("Du matade in en " + moneyType);
-
-            Console.WriteLine(valueNumber);
         }
     }
 
