@@ -1,22 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Reflection;
 
 namespace VendingMachine
 {
 
+    // Berikad med en Description för att ha en pluralbeskrivning av valörerna (using System.ComponentModel;)
     public enum MoneyDenominations
     {
-        enkronor=1, femkrona=5, tiokrona=10, tjugolappar=20, femtiolappar=50, hundralappar=100, femhundralappar=500, tusenlappar=1000
+        [Description("enkronor")]
+        enkrona = 1,
+        [Description("femkronor")]
+        femkrona = 5,
+        [Description("tiokronor")]
+        tiokrona = 10,
+        [Description("tjugolappar")]
+        tjugolapp = 20,
+        [Description("femtiolappar")]
+        femtiolapp = 50,
+        [Description("hundralappar")]
+        hundralapp = 100,
+        [Description("femhundralappar")]
+        femhundralapp = 500,
+        [Description("tusenlappar")]
+        tusenlapp = 1000
     }
 
+    // Vill simulera en vanlig Vending Machine där man använder en kod för att välja vilken vara man vill köpa
     public enum VendingSelection
     {
-        A1=1, A2, A3, B1, B2, B3, C1, C2, C3
+        A1 =1, A2, A3, B1, B2, B3, C1, C2, C3
     }
 
+    public enum Quantity
+    {
+        en = 1, två, tre, fyra, fem, sex, sju, åtta, nio
+    }
+
+    // En generisk typ <T> är användbar när jag vill bolla med enums, likt där jag vill loopa växeln baklänges 
     public static class Enum<T>
     {
         public static IEnumerable<T> AllValues()
@@ -25,6 +45,25 @@ namespace VendingMachine
         }
     }
 
+    public class Enumerations
+    {
+        // Funktion för att enkelt komma åt enum Description. FieldInfo behöver (using System.Reflection;)
+        public static string GetEnumDescription(Enum value)
+        {
+            FieldInfo fi = value.GetType().GetField(value.ToString());
+
+            DescriptionAttribute[] attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
+
+            if (attributes != null && attributes.Any())
+            {
+                return attributes.First().Description;
+            }
+
+            return value.ToString();
+        }
+    }
+
+    // Hur mycket pengar som användaren har kvar att använda i maskinen
     public static class MoneyPool
     {
         static int _moneyPool;
@@ -35,6 +74,7 @@ namespace VendingMachine
         }
     }
 
+    // Om användarens insatta belopp är tillräcklig, så lämnar maskinen ut den önskade varam och drar av varans pris från beloppet som användaren kan handla för.
     public class Purchase
     {
         public VendingSelection BoughtItem { get; set; }
@@ -51,6 +91,7 @@ namespace VendingMachine
         }
     }
 
+    // Funktion som bestämmer att menyn med varorna skall visas.
     public class ShowAll
     {
         public ShowAll()
@@ -59,23 +100,20 @@ namespace VendingMachine
         }
     }
 
+    // Ökar beloppet som användaren kan handla för med värdet av myntet/sedeln som användaren matade in i maskinen.
     public class InsertMoney
     {
         public int MoneyDenomination { get; set; }
 
         public InsertMoney(MoneyDenominations value)
         {
-            ScreenText screenText = new ScreenText();
-            string moneyType = value.ToString();
             Object valueNumber = Convert.ChangeType(value, value.GetTypeCode());
             int moneyValue = (int)valueNumber;
             MoneyPool.moneyPool += moneyValue;
-            screenText.CurrentDisplay();
-            Console.WriteLine("                                        Du matade in en " + moneyType);
-
         }
     }
 
+    // Ger tillbaka det återstående insatta beloppet i minst antal möjliga valörer.
     public class EndTransaction
     {
         public Dictionary<MoneyDenominations, int> ChangeInMoneyTypes { get; set; }

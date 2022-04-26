@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace VendingMachine
 {
-
     enum Display
     {
         Titel,
@@ -20,29 +14,18 @@ namespace VendingMachine
 
         static void Main()
         {
-
             MoneyPool.moneyPool = 0;
 
-            ScreenText screenText = new ScreenText();
+            Text screenText = new Text();
             screenText.CurrentDisplay();
+            Console.WriteLine();
 
-            bool activationOn = true;
-            while (activationOn == true)
-            {
-                activationOn = RunVending();
-            }
-        }
-        public static bool RunVending()
-        {
-
-            string vendingFunction = User.UserAction();
-
-            return true;
+            User.UserAction();
         }
 
     }
 
-    public class ScreenText
+    public class Text
     {
         public void DisplayTitle()
         {
@@ -51,7 +34,7 @@ namespace VendingMachine
             Console.WriteLine("                    ╔═════════════╦════════════════════════════════════════════════════════╗");
             Console.WriteLine("      T = Titel     ║             ╚═╗  ╔╦═╗╔╗╔╦╦╗╦╔╗╔╔═╗                                   ║  1-1000 = Sätt in valör");
             Console.WriteLine("   MENU = Se utbud  ║               ╚╗╔╝╠╣ ║║║ ║║║║║║║╔╦                                   ║  U VARA = Undersöka vara");
-            Console.WriteLine("    KOD = Köp vara  ║                ╚╝ ╚═╩╝╚╝ ╩╩╩╝╚╝╚═╩═╦╦╗╔═╗╔═╦╦ ╦╦╔╗╔╦═╗               ║  K VARA = Konsumera vara");
+            Console.WriteLine("    KOD = Köp vara  ║                ╚╝ ╚═╩╝╚╝ ╩╩╩╝╚╝╚═╩═╦╦╗╔═╗╔═╦╦ ╗╦╔╗╔╦═╗               ║  K VARA = Konsumera vara");
             Console.WriteLine("      Ä = Äger      ║                                    ║║║╠═╣║  ╠═╣║║║║╠╣                ║       V = Växel tillbaka ");
             Console.WriteLine("     AV = Avsluta   ║                                    ╩ ╩╩ ╩╩═╝╩ ╩╩╝╚╝╚═╩═╗             ║  Pengar = " + MoneyPool.moneyPool + " kr");
             Console.WriteLine("                    ╚════════════════════════════════════════════════════════╩═════════════╝");
@@ -60,19 +43,28 @@ namespace VendingMachine
 
         public void DisplayMenu()
         {
+            var a1 = Management.GetProduct((VendingSelection)1);
+            var a2 = Management.GetProduct((VendingSelection)2);
+            var a3 = Management.GetProduct((VendingSelection)3);
+            var b1 = Management.GetProduct((VendingSelection)4);
+            var b2 = Management.GetProduct((VendingSelection)5);
+            var b3 = Management.GetProduct((VendingSelection)6);
+            var c1 = Management.GetProduct((VendingSelection)7);
+            var c2 = Management.GetProduct((VendingSelection)8);
+            var c3 = Management.GetProduct((VendingSelection)9);
+
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine("                    ╔══════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("      T = Titel     ║ A1  5kr (Daim)         A2 10kr (Kexchoklad)   A3 25kr (Mjölkchoklad) ║  1-1000 = Sätt in peng");
+            Console.WriteLine("      T = Titel     ║ A1  {0}kr ({1})         A2 {2}kr ({3})   A3 {4}kr ({5}) ║  1-1000 = Sätt in peng", a1.Price, a1.Name, a2.Price, a2.Name, a3.Price, a3.Name);
             Console.WriteLine("   MENU = Se utbud  ║                                                                      ║  U VARA = Undersöka vara");
-            Console.WriteLine("    KOD = Köp vara  ║ B1 25kr (Chips)        B2 25kr (Ostbågar)     B3 35kr (Nötmix)       ║  K VARA = Konsumera vara");
-            Console.WriteLine("      Ä = Äger      ║                                                                      ║       V = Växel tillbaka");
-            Console.WriteLine("     AV = Avsluta   ║ C1 10kr (Soda Vatten)  C2 15kr (Pepsi)        C3 15kr (Zingo)        ║  Pengar = " + MoneyPool.moneyPool + " kr");
+            Console.WriteLine("      T = Titel     ║ B1 {0}kr ({1})        B2 {2}kr ({3})     B3 {4}kr ({5})       ║  K VARA = Konsumera vara", b1.Price, b1.Name, b2.Price, b2.Name, b3.Price, b3.Name);
+            Console.WriteLine("    KOD = Köp vara  ║                                                                      ║       V = Växel tillbaka");
+            Console.WriteLine("     AV = Avsluta   ║ C1 {0}kr ({1})  C2 {2}kr ({3})        C3 {4}kr ({5})        ║  Pengar = " + MoneyPool.moneyPool + " kr", c1.Price, c1.Name, c2.Price, c2.Name, c3.Price, c3.Name);
             Console.WriteLine("                    ╚══════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
         }
 
-        // Ej implementerad
         public void DisplayOwn()
         {
             var a1 = Management.GetProduct((VendingSelection)1);
@@ -97,18 +89,18 @@ namespace VendingMachine
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine("                    ╔══════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("      T = Titel     ║        " + a1Own + " Daim                 " + a2Own + " Kexchoklad           " + a3Own + " Mjölkchoklad  ║  1-1000 = Sätt in peng"); ; ; ;
+            Console.WriteLine("      T = Titel     ║        {0} {1}                 {2} {3}           {4} {5}  ║  1-1000 = Sätt in peng", a1Own, a1.Name, a2Own, a2.Name, a3Own, a3.Name);
             Console.WriteLine("   MENU = Se utbud  ║                                                                      ║  U VARA = Undersöka vara");
-            Console.WriteLine("    KOD = Köp vara  ║        " + b1Own + " Chips                " + b2Own + " Ostbågar             " + b3Own + " Nötmix        ║  K VARA = Konsumera vara");
+            Console.WriteLine("    KOD = Köp vara  ║        {0} {1}                {2} {3}             {4} {5}        ║  K VARA = Konsumera vara", b1Own, b1.Name, b2Own, b2.Name, b3Own, b3.Name);
             Console.WriteLine("      Ä = Äger      ║                                                                      ║       V = Växel tillbaka");
-            Console.WriteLine("     AV = Avsluta   ║        " + c1Own + " Soda Vatten          " + c2Own + " Pepsi                " + c3Own + " Zingo         ║  Pengar = " + MoneyPool.moneyPool + " kr");
+            Console.WriteLine("     AV = Avsluta   ║        {0} {1}          {2} {3}                {4} {5}         ║  Pengar = " + MoneyPool.moneyPool + " kr", c1Own, c1.Name, c2Own, c2.Name, c3Own, c3.Name);
             Console.WriteLine("                    ╚══════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
         }
 
         public void CurrentDisplay()
         {
-            ScreenText screenText = new ScreenText();
+            Text screenText = new Text();
             switch (Program.currentDisplay)
             {
                 case Display.Titel:
@@ -126,5 +118,19 @@ namespace VendingMachine
             }
         }
 
+        // Används när text skall centreras till mitten.
+        public string Center(string a)
+        {
+            if (a.Length < 110)
+            {
+                string spacing = new string(' ', 55 - (a.Length / 2));
+                a = spacing + a;
+            }
+            else
+            {
+                a = " " + a;
+            }
+            return a;
+        }
     }
 }

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace VendingMachine
 {
-
+    // En abstrakt klass som bestämmer grundinformation och grundfunktioner för produkter.
     public abstract class Product
     {
-
         public string Name { get; set; }
+        public string UpperName { get; set; }
+        public string LowerName { get; set; }
         public string Singular { get; set; }
         public string Plural { get; set; }
         public int Price { get; set; }
@@ -26,10 +22,11 @@ namespace VendingMachine
 
     public class ChocolateBar : Product
     {
-
         public ChocolateBar(String name, int price, String info)
         {
             this.Name = name;
+            this.UpperName = name.ToUpper();
+            this.LowerName = name.ToLower();
             this.Singular = "";
             this.Plural = "";
             this.Price = price;
@@ -38,40 +35,36 @@ namespace VendingMachine
             this.Bought = 0;
             this.Consumed = 0;
         }
+
         public override string Examine()
         {
             string priceAndInfo = Info + ". Pris " + Price + "kr.";
-            Console.WriteLine("                                   " + priceAndInfo);
             return priceAndInfo;
         }
 
         public override string Use()
         {
-            ScreenText screenText = new ScreenText();
-            string konsumerarVara = "";
+            string consumptionMessage;
             if (this.Bought > this.Consumed)
             {
                 this.Consumed += 1;
-                konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
-                screenText.CurrentDisplay();
-                Console.WriteLine("                                      " + konsumerarVara);
-
+                consumptionMessage = "Du " + Usage + " " + this.LowerName;
             }
             else
             {
-                screenText.CurrentDisplay();
-                Console.WriteLine("                                          Du äger ingen " + this.Name.ToLower() + ".");
+                consumptionMessage = "Du äger ingen " + this.LowerName;
             }
-            return konsumerarVara;
+            return consumptionMessage;
         }
     }
 
     public class Snack : Product
     {
-
         public Snack(String name, int price, String info)
         {
             this.Name = name;
+            this.UpperName = name.ToUpper();
+            this.LowerName = name.ToLower();
             this.Singular = "påse ";
             this.Plural = "påsar ";
             this.Price = price;
@@ -80,40 +73,36 @@ namespace VendingMachine
             this.Bought = 0;
             this.Consumed = 0;
         }
+
         public override string Examine()
         {
             string priceAndInfo = Info + ". Pris " + Price + "kr.";
-            Console.WriteLine("                                  " + priceAndInfo);
             return priceAndInfo;
         }
 
         public override string Use()
         {
-            ScreenText screenText = new ScreenText();
-            string konsumerarVara = "";
+            string consumptionMessage;
             if (this.Bought > this.Consumed)
             {
                 this.Consumed += 1;
-                konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
-                screenText.CurrentDisplay();
-                Console.WriteLine("                                  " + konsumerarVara);
+                consumptionMessage = "Du " + Usage + " " + this.LowerName;
             }
             else
             {
-                screenText.CurrentDisplay();
-                Console.WriteLine("                                       Du äger ingen " + this.Name.ToLower() + ".");
-                Console.WriteLine("                                    Du har ingen växel att få tillbaka.");
+                consumptionMessage = "Du äger ingen " + this.LowerName;
             }
-            return konsumerarVara;
+            return consumptionMessage;
         }
     }
 
     public class Drink : Product
     {
-
         public Drink(String name, int price, String info)
         {
             this.Name = name;
+            this.UpperName = name.ToUpper();
+            this.LowerName = name.ToLower();
             this.Singular = "flaska ";
             this.Plural = "flaskor ";
             this.Price = price;
@@ -122,31 +111,26 @@ namespace VendingMachine
             this.Bought = 0;
             this.Consumed = 0;
         }
+
         public override string Examine()
         {
             string priceAndInfo = Info + ". Pris " + Price + "kr.";
-            Console.WriteLine("                                " + priceAndInfo);
             return priceAndInfo;
         }
 
         public override string Use()
         {
-            ScreenText screenText = new ScreenText();
-            string konsumerarVara = "";
+            string consumptionMessage;
             if (this.Bought > this.Consumed)
             {
                 this.Consumed += 1;
-                konsumerarVara = "Du " + Usage + " " + this.Name.ToLower() + ".";
-                Console.WriteLine("                                  " + konsumerarVara);
+                consumptionMessage = "Du " + Usage + " " + this.LowerName;
             }
             else
             {
-                Console.WriteLine("                                     Du äger ingen " + this.Name.ToLower() + ".");
+                consumptionMessage = "Du äger ingen " + this.LowerName;
             }
-            return konsumerarVara;
+            return consumptionMessage;
         }
     }
-
-
-
 }
