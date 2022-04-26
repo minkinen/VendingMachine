@@ -3,14 +3,13 @@ namespace VendingMachine
 {
     enum Display
     {
-        Titel,
         Menu,
-        Own
+        UserInventory
     }
 
     internal class Program
     {
-        internal static Display currentDisplay = Display.Titel;
+        internal static Display currentDisplay = Display.Menu;
 
         static void Main()
         {
@@ -27,73 +26,83 @@ namespace VendingMachine
 
     public class Text
     {
-        public void DisplayTitle()
+        public void DisplayMenu()
         {
+            string[] menuItems = new string[9];
+            int menuItemsElement = 0;
+            foreach (var (code, product) in Management.menu)
+            {
+                string productCode = code.ToString();
+                string productName = product.Name.ToString();
+                productName = productName.Truncate(12);
+                string nameSpacePadding = new string(' ', 12 - (productName.Length));
+                string price = product.Price.ToString();
+                price = price.Truncate(3);
+                string priceSpacePadding = new string(' ', 3 - (price.Length));
+                menuItems[menuItemsElement] = productCode + priceSpacePadding + price + "kr (" + productName + ")" + nameSpacePadding;
+                menuItemsElement += 1;
+            }
+            string moneyPool = MoneyPool.moneyPool.ToString();
+            moneyPool = moneyPool.Truncate(6);
+            string moneyPoolSpacePadding = new string(' ', 6 - (moneyPool.Length));
+
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine("                    ╔═════════════╦════════════════════════════════════════════════════════╗");
-            Console.WriteLine("      T = Titel     ║             ╚═╗  ╔╦═╗╔╗╔╦╦╗╦╔╗╔╔═╗                                   ║  1-1000 = Sätt in valör");
-            Console.WriteLine("   MENU = Se utbud  ║               ╚╗╔╝╠╣ ║║║ ║║║║║║║╔╦                                   ║  U VARA = Undersöka vara");
-            Console.WriteLine("    KOD = Köp vara  ║                ╚╝ ╚═╩╝╚╝ ╩╩╩╝╚╝╚═╩═╦╦╗╔═╗╔═╦╦ ╗╦╔╗╔╦═╗               ║  K VARA = Konsumera vara");
-            Console.WriteLine("      Ä = Äger      ║                                    ║║║╠═╣║  ╠═╣║║║║╠╣                ║       V = Växel tillbaka ");
-            Console.WriteLine("     AV = Avsluta   ║                                    ╩ ╩╩ ╩╩═╝╩ ╩╩╝╚╝╚═╩═╗             ║  Pengar = " + MoneyPool.moneyPool + " kr");
-            Console.WriteLine("                    ╚════════════════════════════════════════════════════════╩═════════════╝");
-            Console.WriteLine();
-        }
-
-        public void DisplayMenu()
-        {
-            var a1 = Management.GetProduct((VendingSelection)1);
-            var a2 = Management.GetProduct((VendingSelection)2);
-            var a3 = Management.GetProduct((VendingSelection)3);
-            var b1 = Management.GetProduct((VendingSelection)4);
-            var b2 = Management.GetProduct((VendingSelection)5);
-            var b3 = Management.GetProduct((VendingSelection)6);
-            var c1 = Management.GetProduct((VendingSelection)7);
-            var c2 = Management.GetProduct((VendingSelection)8);
-            var c3 = Management.GetProduct((VendingSelection)9);
-
-            Console.Clear();
-            Console.WriteLine();
-            Console.WriteLine("                    ╔══════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("      T = Titel     ║ A1  {0}kr ({1})         A2 {2}kr ({3})   A3 {4}kr ({5}) ║  1-1000 = Sätt in peng", a1.Price, a1.Name, a2.Price, a2.Name, a3.Price, a3.Name);
-            Console.WriteLine("   MENU = Se utbud  ║                                                                      ║  U VARA = Undersöka vara");
-            Console.WriteLine("      T = Titel     ║ B1 {0}kr ({1})        B2 {2}kr ({3})     B3 {4}kr ({5})       ║  K VARA = Konsumera vara", b1.Price, b1.Name, b2.Price, b2.Name, b3.Price, b3.Name);
-            Console.WriteLine("    KOD = Köp vara  ║                                                                      ║       V = Växel tillbaka");
-            Console.WriteLine("     AV = Avsluta   ║ C1 {0}kr ({1})  C2 {2}kr ({3})        C3 {4}kr ({5})        ║  Pengar = " + MoneyPool.moneyPool + " kr", c1.Price, c1.Name, c2.Price, c2.Name, c3.Price, c3.Name);
+            Console.WriteLine("  Pengar: {0} kr {1}║             ╚═╗  ╔╦═╗╔╗╔╦╦╗╦╔╗╔╔═╗                                   ║  U vara = Undersöka vara", moneyPool, moneyPoolSpacePadding);
+            Console.WriteLine("                    ║               ╚╗╔╝╠╣ ║║║ ║║║║║║║╔╦                                   ║");
+            Console.WriteLine("      M = Menu      ║                ╚╝ ╚═╩╝╚╝ ╩╩╩╝╚╝╚═╩═╦╦╗╔═╗╔═╦╦ ╗╦╔╗╔╦═╗               ║  K vara = Konsumera vara");
+            Console.WriteLine("                    ║                                    ║║║╠═╣║  ╠═╣║║║║╠╣                ║");
+            Console.WriteLine("      Ä = Ägogods   ║                                    ╩ ╩╩ ╩╩═╝╩ ╩╩╝╚╝╚═╩═╗             ║  vara* innebär att skriva");
+            Console.WriteLine("                    ╠════════════════════════════════════════════════════════╩═════════════╣  varu-kod eller varu-namn");
+            Console.WriteLine("    kod = Köp vara  ║                                                                      ║  (ex. U C2 eller K Pepsi)");
+            Console.WriteLine("      (ex. A3)      ║ {0} {1} {2} ║", menuItems[0], menuItems[1], menuItems[2]);
+            Console.WriteLine("                    ║                                                                      ║   valör = Insättning");
+            Console.WriteLine("      V = Växel     ║ {0} {1} {2} ║", menuItems[3], menuItems[4], menuItems[5]);
+            Console.WriteLine("  (pengar tillbaka) ║                                                                      ║  valör* innebär att skriva");
+            Console.WriteLine("                    ║ {0} {1} {2} ║  talet för valörens värde", menuItems[6], menuItems[7], menuItems[8]);
+            Console.WriteLine("     AV = Avsluta   ║                                                                      ║  1 5 10 20 50 100 500 1000");
             Console.WriteLine("                    ╚══════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
         }
 
-        public void DisplayOwn()
+        public void DisplayUserInventory()
         {
-            var a1 = Management.GetProduct((VendingSelection)1);
-            int a1Own = a1.Bought - a1.Consumed;
-            var a2 = Management.GetProduct((VendingSelection)2);
-            int a2Own = a2.Bought - a2.Consumed;
-            var a3 = Management.GetProduct((VendingSelection)3);
-            int a3Own = a3.Bought - a3.Consumed;
-            var b1 = Management.GetProduct((VendingSelection)4);
-            int b1Own = b1.Bought - b1.Consumed;
-            var b2 = Management.GetProduct((VendingSelection)5);
-            int b2Own = b2.Bought - b2.Consumed;
-            var b3 = Management.GetProduct((VendingSelection)6);
-            int b3Own = b3.Bought - b3.Consumed;
-            var c1 = Management.GetProduct((VendingSelection)7);
-            int c1Own = c1.Bought - c1.Consumed;
-            var c2 = Management.GetProduct((VendingSelection)8);
-            int c2Own = c2.Bought - c2.Consumed;
-            var c3 = Management.GetProduct((VendingSelection)9);
-            int c3Own = c3.Bought - c3.Consumed;
+            // Menyn har dynamiska långa mellanrum för att anpassa sig efter längden av produktnamnen och kvantiteterna. Dock är menyn liten så alla produktnamn längre än 18 tecken blir beskärda ner till 18 tecken.
+            string[] inventoryItems = new string[9];
+            int inventoryElement = 0;
+            foreach (var (code, product) in Management.menu)
+            {
+                string productName = product.Name.ToString();
+                productName = productName.Truncate(18);
+                string nameSpacePadding = new string(' ', 18 - (productName.Length));
+                int quantityInUserInventory = product.Bought - product.Consumed;
+                string quantity = quantityInUserInventory.ToString();
+                quantity = quantity.Truncate(3);
+                string quantitySpacePadding = new string(' ', 3 - (quantity.Length));
+                inventoryItems[inventoryElement] = quantitySpacePadding + quantity + " " + productName + nameSpacePadding;
+                inventoryElement += 1;
+            }
+            string moneyPool = MoneyPool.moneyPool.ToString();
+            moneyPool = moneyPool.Truncate(6);
+            string moneyPoolSpacePadding = new string(' ', 6 - (moneyPool.Length));
 
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine("                    ╔══════════════════════════════════════════════════════════════════════╗");
-            Console.WriteLine("      T = Titel     ║        {0} {1}                 {2} {3}           {4} {5}  ║  1-1000 = Sätt in peng", a1Own, a1.Name, a2Own, a2.Name, a3Own, a3.Name);
-            Console.WriteLine("   MENU = Se utbud  ║                                                                      ║  U VARA = Undersöka vara");
-            Console.WriteLine("    KOD = Köp vara  ║        {0} {1}                {2} {3}             {4} {5}        ║  K VARA = Konsumera vara", b1Own, b1.Name, b2Own, b2.Name, b3Own, b3.Name);
-            Console.WriteLine("      Ä = Äger      ║                                                                      ║       V = Växel tillbaka");
-            Console.WriteLine("     AV = Avsluta   ║        {0} {1}          {2} {3}                {4} {5}         ║  Pengar = " + MoneyPool.moneyPool + " kr", c1Own, c1.Name, c2Own, c2.Name, c3Own, c3.Name);
+            Console.WriteLine("                    ╔═════════════╦════════════════════════════════════════════════════════╗");
+            Console.WriteLine("  Pengar: {0} kr {1}║             ╚═╗  ╔╦═╗╔╗╔╦╦╗╦╔╗╔╔═╗                                   ║  U vara = Undersöka vara", moneyPool, moneyPoolSpacePadding);
+            Console.WriteLine("                    ║               ╚╗╔╝╠╣ ║║║ ║║║║║║║╔╦                                   ║");
+            Console.WriteLine("      M = Menu      ║                ╚╝ ╚═╩╝╚╝ ╩╩╩╝╚╝╚═╩═╦╦╗╔═╗╔═╦╦ ╗╦╔╗╔╦═╗               ║  K vara = Konsumera vara");
+            Console.WriteLine("                    ║                                    ║║║╠═╣║  ╠═╣║║║║╠╣                ║");
+            Console.WriteLine("      Ä = Ägogods   ║                                    ╩ ╩╩ ╩╩═╝╩ ╩╩╝╚╝╚═╩═╗             ║  vara* innebär att skriva");
+            Console.WriteLine("                    ╠════════════════════════════════════════════════════════╩═════════════╣  varu-kod eller varu-namn");
+            Console.WriteLine("    kod = Köp vara  ║                                                                      ║  (ex. U C2 eller K Pepsi)");
+            Console.WriteLine("      (ex. A3)      ║ {0}{1}{2}   ║", inventoryItems[0], inventoryItems[1], inventoryItems[2]);
+            Console.WriteLine("                    ║                                                                      ║   valör = Insättning");
+            Console.WriteLine("      V = Växel     ║ {0}{1}{2}   ║", inventoryItems[3], inventoryItems[4], inventoryItems[5]);
+            Console.WriteLine("  (pengar tillbaka) ║                                                                      ║  valör* innebär att skriva");
+            Console.WriteLine("                    ║ {0}{1}{2}   ║  talet för valörens värde", inventoryItems[6], inventoryItems[7], inventoryItems[8]);
+            Console.WriteLine("     AV = Avsluta   ║                                                                      ║  1 5 10 20 50 100 500 1000");
             Console.WriteLine("                    ╚══════════════════════════════════════════════════════════════════════╝");
             Console.WriteLine();
         }
@@ -103,17 +112,14 @@ namespace VendingMachine
             Text screenText = new Text();
             switch (Program.currentDisplay)
             {
-                case Display.Titel:
-                    DisplayTitle();
-                    break;
                 case Display.Menu:
                     DisplayMenu();
                     break;
-                case Display.Own:
-                    DisplayOwn();
+                case Display.UserInventory:
+                    DisplayUserInventory();
                     break;
                 default:
-                    DisplayTitle();
+                    DisplayMenu();
                     break;
             }
         }
@@ -123,7 +129,7 @@ namespace VendingMachine
         {
             if (a.Length < 110)
             {
-                string spacing = new string(' ', 55 - (a.Length / 2));
+                string spacing = new string(' ', 56 - (a.Length / 2));
                 a = spacing + a;
             }
             else
@@ -131,6 +137,16 @@ namespace VendingMachine
                 a = " " + a;
             }
             return a;
+        }
+    }
+
+    // En function som ser om en text är längre än den maximala tillåtna längden och i så fall skär ner texten till den maximala tillåtna längden.
+    public static class StringExt
+    {
+        public static string Truncate(this string variable, int Length)
+        {
+            if (string.IsNullOrEmpty(variable)) return variable;
+            return variable.Length <= Length ? variable : variable.Substring(0, Length);
         }
     }
 }

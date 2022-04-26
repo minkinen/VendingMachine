@@ -1,4 +1,5 @@
-﻿
+﻿using System.Text;
+
 namespace VendingMachine
 {
     internal class User
@@ -24,7 +25,7 @@ namespace VendingMachine
                 {
                     switch (inputElements[0])
                     {
-                        case "U":
+                        case "U" or "UNDERSÖKA" or "UNDERSÖKER":
                             VendingSelection choice;
                             Product chosenProduct;
                             string testProductName = inputElements[1];
@@ -59,7 +60,7 @@ namespace VendingMachine
                             }
                             break;
 
-                        case "K":
+                        case "K" or "KONSUMERA" or "KONSUMERAR":
                             VendingSelection consumptionChoice;
                             Product onsumptionChoiceProduct;
                             string consumptionTestProductName = inputElements[1];
@@ -129,7 +130,7 @@ namespace VendingMachine
                         }
                         break;
 
-                    case "MENU":
+                    case "M" or "MENU":
                         if (Program.currentDisplay != Display.Menu)
                         {
                             Vending showAllService = new Vending();
@@ -154,7 +155,7 @@ namespace VendingMachine
                         Console.WriteLine(screenText.Center(depositMessage));
                         break;
 
-                    case "V":
+                    case "V" or "VÄXEL":
                         if (MoneyPool.moneyPool > 0)
                         {
                             int totalChange = MoneyPool.moneyPool;
@@ -164,7 +165,11 @@ namespace VendingMachine
                             Quantity someNumber = new Quantity();
                             screenText.CurrentDisplay();
                             string quantity;
-                            Console.Write(" Du får tillbaka");
+
+                            // Stringbuilder behöver (using System.Text;)
+                            StringBuilder changeMessage = new StringBuilder();
+                            changeMessage.Append("Du får tillbaka");
+
                             // Loopar igenom växeln (en dictionary som innehåller de antal av olika sedlar och mynt) som användaren får tillbaka. För att få rätt gramatik i texten om hur mycket växel användaren får tillbaka.
                             for (int x = 0; x < changeInMoneyTypes.Count; x++)
                             {
@@ -181,27 +186,29 @@ namespace VendingMachine
                                 // Om antalet av den nuvarande valören i loopen är fler än 1 så skriver den ut valören i pluralform, annars skriver den ut valören vanligt.
                                 if (changeInMoneyTypes.ElementAt(x).Value > 1)
                                 {
-                                    Console.Write(" {0} {1}", quantity, Enumerations.GetEnumDescription(changeInMoneyTypes.ElementAt(x).Key));
+                                    changeMessage.Append(" " + quantity);
+                                    changeMessage.Append(" " + Enumerations.GetEnumDescription(changeInMoneyTypes.ElementAt(x).Key));
                                 }
                                 else
-                                { 
-                                    Console.Write(" {0} {1}", quantity, changeInMoneyTypes.Keys.ElementAt(x));
-
+                                {
+                                    changeMessage.Append(" " + quantity);
+                                    changeMessage.Append(" " + changeInMoneyTypes.Keys.ElementAt(x));
                                 }
 
                                 // Separerar växeln med ',' om det är fler än 1 valör kvar i loopen att skriva ut.
                                 if (x < changeInMoneyTypes.Count - 2)
                                 {
-                                    Console.Write(",");
+                                    changeMessage.Append(",");
                                 }
 
                                 // Separar växeln med 'och' ifall det bara är 1 valör kvar i loopen att skriva ut.
                                 if (x == changeInMoneyTypes.Count - 2)
                                 {
-                                    Console.Write(" och");
+                                    changeMessage.Append(" och");
                                 }
                             }
-                            Console.Write(".");
+                            changeMessage.Append(".");
+                            Console.WriteLine(screenText.Center(changeMessage.ToString()));
                         }
                         else
                         {
@@ -210,20 +217,14 @@ namespace VendingMachine
                         }
                         break;
 
-                    case "Ä":
+                    case "Ä" or "ÄGOGODS" or "ÄGOR" or "ÄGER":
                         // Not implemented
-                        Program.currentDisplay = Display.Own;
+                        Program.currentDisplay = Display.UserInventory;
                         screenText.CurrentDisplay();
                         Console.WriteLine();
                         break;
 
-                    case "T":
-                        Program.currentDisplay = Display.Titel;
-                        screenText.CurrentDisplay();
-                        Console.WriteLine();
-                        break;
-
-                    case "AV":
+                    case "AV" or "AVSLUTA":
                         Console.WriteLine();
                         usingVendingMachine = false;
                         break;

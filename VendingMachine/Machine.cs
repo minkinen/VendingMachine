@@ -31,6 +31,7 @@ namespace VendingMachine
         A1 =1, A2, A3, B1, B2, B3, C1, C2, C3
     }
 
+    // Alternativ för att få antalet mynt och sedlar i ord istället för siffror.
     public enum Quantity
     {
         en = 1, två, tre, fyra, fem, sex, sju, åtta, nio
