@@ -1,15 +1,16 @@
 ﻿
 namespace VendingMachine
 {
-    enum Display
+    // För att hålla ordning på vilken menu som är aktuell.
+    public enum Display
     {
         Menu,
         UserInventory
     }
 
-    internal class Program
+    public class Program
     {
-        internal static Display currentDisplay = Display.Menu;
+        public static Display currentDisplay = Display.Menu;
 
         static void Main()
         {
@@ -21,7 +22,6 @@ namespace VendingMachine
 
             User.UserAction();
         }
-
     }
 
     public class Text
@@ -107,6 +107,7 @@ namespace VendingMachine
             Console.WriteLine();
         }
 
+        // För att presentera den meny som är aktuell.
         public void CurrentDisplay()
         {
             Text screenText = new Text();
